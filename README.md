@@ -2,6 +2,12 @@
 
 Personal collection of skills and extensions for pi coding agent.
 
+## Install
+
+```bash
+pi install git:github.com/dmatos2012/agent-tooling
+```
+
 ## Attribution
 
 The following files were copied from [mitsuhiko/agent-stuff](https://github.com/mitsuhiko/agent-stuff):
