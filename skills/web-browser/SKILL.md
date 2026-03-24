@@ -1,6 +1,6 @@
 ---
 name: web-browser
-description: "Allows to interact with web pages by performing actions such as clicking buttons, filling out forms, and navigating links. It works by remote controlling Google Chrome or Chromium browsers using the Chrome DevTools Protocol (CDP). When Claude needs to browse the web, it can use this skill to do so."
+description: "Allows to interact with web pages by performing actions such as clicking buttons, filling out forms, and navigating links. It works by remote controlling Chromium-based browsers (Helium/Chrome/Chromium) using the Chrome DevTools Protocol (CDP). When Claude needs to browse the web, it can use this skill to do so."
 license: Stolen from Mario
 ---
 
@@ -8,14 +8,18 @@ license: Stolen from Mario
 
 Minimal CDP tools for collaborative site exploration.
 
-## Start Chrome
+## Start Browser (Helium on NixOS)
 
 ```bash
 ./scripts/start.js              # Fresh profile
 ./scripts/start.js --profile    # Copy your profile (cookies, logins)
 ```
 
-Start Chrome on `:9222` with remote debugging.
+Start the browser on `:9222` with remote debugging.
+
+Environment variables:
+- `BROWSER`: command to launch (defaults to `helium`).
+- `HELIUM_PROFILE_DIR`: profile source when using `--profile` (defaults to `~/.config/net.imput.helium`).
 
 ## Navigate
 
