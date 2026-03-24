@@ -13,6 +13,7 @@ pi install git:github.com/dmatos2012/agent-tooling
 The following files were copied from [mitsuhiko/agent-stuff](https://github.com/mitsuhiko/agent-stuff):
 
 - `skills/uv/` - UV skill for pi coding agent
+- `skills/summarize/` - Extract info from URL and other things.
 - `pi-extensions/uv.ts` - UV extension for pi coding agent
 - `pi-extensions/notify.ts` - Desktop notification extension
 - `intercepted-commands/` - Command shims (pip, pip3, poetry, python, python3)
