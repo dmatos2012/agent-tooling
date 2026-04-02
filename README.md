@@ -22,3 +22,5 @@ The following files were copied from [mitsuhiko/agent-stuff](https://github.com/
 
 This skill from[repo](https://github.com/danverbraganza/jujutsu-skill/blob/efcc70090b14e4504d8f8523dd43d6a6605b9a1e/jujutsu/SKILL.md)
 `skills/jj` - Jujutsu skill for pi coding agent
+
+`extension/protected-paths.ts` : From [pi repo](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/examples/extensions/protected-paths.ts)
