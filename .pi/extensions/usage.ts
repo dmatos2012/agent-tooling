@@ -40,6 +40,8 @@ const modelMultipliers: Record<string, number> = {
 };
 
 const SESSION_ROOT = path.join(os.homedir(), ".pi", "agent", "sessions");
+const EXTRA_SEARCH_DAYS = 10;
+
 const now = new Date();
 const beginning_month = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
 
@@ -92,8 +94,7 @@ async function showModelCount(ctx: ExtensionCommandContext, start_date: Date): P
   // Anything longer > 10 days, wont be counted due to this filtering.
   // In the future, we can just parse via the msg itself but it might takes much longer unnecessarily
   // when in my personal case I never use a session for that long.
-  const extra_days = 10;
-  const filter_buffer_date = start_date.getTime() - (extra_days * 24 * 60 * 60 * 1000);
+  const filter_buffer_date = start_date.getTime() - (EXTRA_SEARCH_DAYS * 24 * 60 * 60 * 1000);
   const session_files: Array<string> = await walkDir(SESSION_ROOT, new Date(filter_buffer_date));
   var modelRequests: Record<string, number> = {};
   for (const name in modelMultipliers) {
