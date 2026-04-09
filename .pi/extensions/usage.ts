@@ -41,6 +41,8 @@ const modelMultipliers: Record<string, number> = {
 
 const SESSION_ROOT = path.join(os.homedir(), ".pi", "agent", "sessions");
 const EXTRA_SEARCH_DAYS = 10;
+// Given fixed by Copilot subscription
+const MAX_REQUESTS_PER_MONTH = 300;
 
 const now = new Date();
 const beginning_month = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
@@ -115,8 +117,6 @@ async function showModelCount(ctx: ExtensionCommandContext, start_date: Date): P
                 const msg_date = new Date(msg.timestamp);
                 // we might have here content[type] == toolCall which should not count
                 if ((msg.model in modelRequests) && (msg_date >= start_date)) {
-                  console.log("Message timestamp: " + msg_date);
-                  console.log("Entry session file: " + file);
                   modelRequests[msg.model] += 1;
                 } else {
                   continue;
@@ -140,9 +140,10 @@ async function showModelCount(ctx: ExtensionCommandContext, start_date: Date): P
 
   var modelBreakdown = "";
   Object.entries(modelRequests).filter(([_, count]) => count > 0).forEach(([name, count]) => {
-    modelBreakdown += `${name} => ${count}\n`
+    modelBreakdown += `${name} => ${count} * ${modelMultipliers[name]}\n`
   });
-  const endMessage = `Total requests messages this month : ${total}\n${modelBreakdown}`;
+  const percentage_used = ((total / MAX_REQUESTS_PER_MONTH) * 100).toFixed(1).toString() + "%";
+  const endMessage = `Premium Requests: ${percentage_used}\n${modelBreakdown}`;
   if (ctx.hasUI) {
     ctx.ui.setWidget("custom-widget", (_, theme) => new Text(theme.fg("accent", endMessage), 0, 0));
   }
