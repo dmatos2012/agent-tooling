@@ -98,7 +98,7 @@ async function showModelCount(ctx: ExtensionCommandContext, start_date: Date): P
   // when in my personal case I never use a session for that long.
   const filter_buffer_date = start_date.getTime() - (EXTRA_SEARCH_DAYS * 24 * 60 * 60 * 1000);
   const session_files: Array<string> = await walkDir(SESSION_ROOT, new Date(filter_buffer_date));
-  var modelRequests: Record<string, number> = {};
+  let modelRequests: Record<string, number> = {};
   for (const name in modelMultipliers) {
     // Initialize them all with count of 0
     modelRequests[name] = 0;
@@ -133,17 +133,27 @@ async function showModelCount(ctx: ExtensionCommandContext, start_date: Date): P
     }
   }
 
-  var total = 0;
+  let total = 0;
   for (const [name, modelCount] of Object.entries(modelRequests)) {
     total += modelMultipliers[name] * modelCount;
   }
 
-  var modelBreakdown = "";
-  Object.entries(modelRequests).filter(([_, count]) => count > 0).forEach(([name, count]) => {
-    modelBreakdown += `${name} => ${count} * ${modelMultipliers[name]}\n`
+  let modelBreakdown = "";
+  const filteredEntries = Object.entries(modelRequests).filter(([_, count]) => count > 0);
+  const maxNameLength = Math.max(...filteredEntries.map(([name]) => name.length), 0);
+
+  filteredEntries.forEach(([name, count]) => {
+    const multiplier = modelMultipliers[name];
+    const subtotal = (count * multiplier).toLocaleString(undefined, { maximumFractionDigits: 1 });
+    const paddedName = name.padEnd(maxNameLength);
+    const paddedCount = count.toString().padStart(3);
+
+    modelBreakdown += `${paddedName} | ${paddedCount} × ${multiplier.toString().padEnd(4)} = ${subtotal}\n`;
   });
-  const percentage_used = ((total / MAX_REQUESTS_PER_MONTH) * 100).toFixed(1).toString() + "%";
-  const endMessage = `Premium Requests: ${percentage_used}\n${modelBreakdown}`;
+
+  const totalStr = total.toLocaleString(undefined, { maximumFractionDigits: 1 });
+  const percentage_used = ((total / MAX_REQUESTS_PER_MONTH) * 100).toLocaleString(undefined, { maximumFractionDigits: 1 }) + "%";
+  const endMessage = `${modelBreakdown}\nPremium Requests: ${percentage_used} (${totalStr}/${MAX_REQUESTS_PER_MONTH})`;
   if (ctx.hasUI) {
     ctx.ui.setWidget("custom-widget", (_, theme) => new Text(theme.fg("accent", endMessage), 0, 0));
   }
