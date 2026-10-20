@@ -24,3 +24,5 @@ This skill from[repo](https://github.com/danverbraganza/jujutsu-skill/blob/efcc7
 `skills/jj` - Jujutsu skill for pi coding agent
 
 `extension/protected-paths.ts` : From [pi repo](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/examples/extensions/protected-paths.ts)
+
+`skills/deeper/` - Ask for a deeper version of a task. From [joshp123's gist](https://gist.github.com/joshp123/a1443d30fa1b7c577e74882895cea61b/5d2b31e50c31ab5cc7dda8aa313ab7e3c50329c3)
