@@ -93,3 +93,18 @@ Summarize network responses:
 ```bash
 ./scripts/net-summary.js
 ```
+
+## Troubleshooting
+
+### Helium won't start with remote debugging
+Helium merges into an existing session if one is already running — it ignores `--remote-debugging-port` and prints "Opening in existing browser session". The user must close Helium first, or use a different browser via `BROWSER=brave`.
+
+### Brave as alternative
+Brave is available on this system. Use a unique `--user-data-dir` to avoid session conflicts:
+```bash
+brave --remote-debugging-port=9222 --user-data-dir=/tmp/brave-debug-profile --no-first-run --disable-features=ProfilePicker http://localhost:8000/ &
+```
+Then wait a few seconds and use `nav.js`, `screenshot.js`, `eval.js` as normal.
+
+### Authentication
+When the app requires login, always ask the user to log in via the browser UI — do not try to automate login with curl or scripting.
